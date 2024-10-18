@@ -29,10 +29,22 @@ namespace Player.Movement
         }
         private void Movement()
         {
+            //Forward Movement
             float thrust = Input.GetAxis("Vertical") * _thrustPower;
-            Vector3 force = transform.forward * thrust; //Force direction and thrust giving vector for us to move into.
+            Vector3 forwardForce = transform.forward * thrust * Time.fixedDeltaTime; //Force direction and thrust giving vector for us to move into.
 
-            _playerRb.AddForce(force);
+            //Upward Movement
+            Vector3 verticalForce = Vector3.zero;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                verticalForce = transform.up * _thrustPower * Time.fixedDeltaTime;
+            }
+            else if (Input.GetKey(KeyCode.C))
+            {
+                verticalForce = -transform.up * _thrustPower * Time.fixedDeltaTime;
+            }
+
+            _playerRb.AddForce(forwardForce + verticalForce);
         }
 
         private void Rotate()
@@ -40,7 +52,7 @@ namespace Player.Movement
             //Use fixedDeltaTime since fixedupdate is using fixed intervals.
             float yaw = Input.GetAxis("Horizontal") * _rotationSpeed * Time.fixedDeltaTime;
             transform.Rotate(0, yaw, 0);
-                
+
             float rot = _rotationSpeed * Time.fixedDeltaTime;
 
             if (Input.GetKey(KeyCode.Q))
@@ -50,6 +62,15 @@ namespace Player.Movement
             else if (Input.GetKey(KeyCode.E))
             {
                 transform.Rotate(0, 0, -rot);
+            }
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                transform.Rotate(rot, 0, 0);
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                transform.Rotate(-rot, 0, 0);
             }
         }
 
