@@ -12,20 +12,32 @@ namespace Player.Movement
         [SerializeField] private float _maxSpeed = 20f;
 
         private Rigidbody _playerRb;
+        private AudioSource _audio;
 
+        private float _currentPitch = 0f;
         private void Awake()
         {
             _playerRb = GetComponent<Rigidbody>();
             _playerRb.useGravity = false;
+
+            _audio = GetComponent<AudioSource>();
         }
 
         private void FixedUpdate() => ApplyMovement();
 
         private void ApplyMovement()
         {
+            HandleMovementSound();
             Movement();
             Rotate();
             ClampSpeedAtLimit();
+        }
+        private void HandleMovementSound()
+        {
+            float targetPitch = Input.GetKey(KeyCode.W) ? 1f : 0f;
+
+            _currentPitch = Mathf.MoveTowards(_currentPitch, targetPitch, 0.75f * Time.deltaTime);
+            _audio.pitch = _currentPitch;
         }
         private void Movement()
         {
