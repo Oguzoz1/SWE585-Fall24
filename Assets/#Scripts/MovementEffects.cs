@@ -14,7 +14,7 @@ public class MovementEffects : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.LeftShift))
             ChangeEffectForwardBackward();
         else
         {

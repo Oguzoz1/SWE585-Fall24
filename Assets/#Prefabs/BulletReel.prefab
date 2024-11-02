@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9034930661100057078}
   - component: {fileID: 3868177411020988608}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletReel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c595416618c12d549b7be1ea56290cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletThrust: 1200
 --- !u!1001 &1237518204895242921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +100,10 @@ PrefabInstance:
     - target: {fileID: 6270980643112332444, guid: c53664aca38150b48b728274ae006d26, type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270980643112332444, guid: c53664aca38150b48b728274ae006d26, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7930998285431341719, guid: c53664aca38150b48b728274ae006d26, type: 3}

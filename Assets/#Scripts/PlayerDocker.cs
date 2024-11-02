@@ -11,8 +11,10 @@ public class PlayerDocker : MonoBehaviour
     [SerializeField] private Vector3 _lastPointOfDock;
 
     private bool _dockingInvoked = false;
+    private bool _tookOffInvoked = false;
 
     public static event Action<PlayerDocker> OnPlayerDocking;
+    public static event Action<PlayerDocker> OnPlayerTakeOff;
 
     private void Awake()
     {
@@ -23,6 +25,11 @@ public class PlayerDocker : MonoBehaviour
     {
         if (CheckTakingOff())
         {
+            if (!_tookOffInvoked)
+            {
+                OnPlayerTakeOff?.Invoke(this);
+                _tookOffInvoked = true;
+            }
             isLanded = false;
             _dockingInvoked = false;
         }
@@ -35,6 +42,7 @@ public class PlayerDocker : MonoBehaviour
                 OnPlayerDocking?.Invoke(this);
                 _dockingInvoked = true;
             }
+            _tookOffInvoked = false;
         }
     }
 
