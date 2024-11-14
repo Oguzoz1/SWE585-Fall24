@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Asteroid.Generator
+namespace Generator.Asteroid
 {
     /// <summary>
     /// Astreoid Generator for the environment aspects. This script will run at the start of the game to form a map.
@@ -42,11 +42,6 @@ namespace Asteroid.Generator
             return new Asteroid(obj);
         }
     }
-
-}
-
-namespace Asteroid
-{
     public class Asteroid
     {
         private GameObject _gameObject;

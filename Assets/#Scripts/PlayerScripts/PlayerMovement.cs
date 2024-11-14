@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player.Movement
+namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {   [Header("------------------------MOVEMENT------------------------------------------")]
