@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Octrees
+namespace PathFinding.Octrees
 {
     public class OctreeNode
     {

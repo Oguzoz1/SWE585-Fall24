@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Octrees
+namespace PathFinding.Octrees
 {
     //All the objects that exists within the tree will have their own bounds.
     //This is to understand exactly where the incoming object around the octreeobject.

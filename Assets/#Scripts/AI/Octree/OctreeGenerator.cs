@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace Octrees
+namespace PathFinding.Octrees
 {
     public class OctreeGenerator : MonoBehaviour
     {
