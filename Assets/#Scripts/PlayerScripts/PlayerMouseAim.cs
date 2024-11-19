@@ -1,10 +1,10 @@
+using Game.Player.CameraMovement;
 using GameUtility;
-using Player.CameraMovement;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Player
+namespace Game.Player
 {
     public class PlayerMouseAim : MonoBehaviour, ICameraDependent
     {

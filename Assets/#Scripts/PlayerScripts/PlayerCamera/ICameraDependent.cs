@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player.CameraMovement
+namespace Game.Player.CameraMovement
 {
     /// <summary>
     /// Marker for classes that interacts with the camera

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using GameUtility;
 
-namespace Player.CameraMovement
+namespace Game.Player.CameraMovement
 {
     public class PlayerCameraMovement : MonoBehaviour
     {
