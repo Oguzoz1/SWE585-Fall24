@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+namespace Player.Ship
 {
 
-    public class PlayerDocker : MonoBehaviour
+    public class PlayerShipDocker : MonoBehaviour
     {
         private Rigidbody _rb;
         [SerializeField] private bool isLanded = true;
@@ -16,8 +16,8 @@ namespace Player
         private bool _dockingInvoked = false;
         private bool _tookOffInvoked = false;
 
-        public static event Action<PlayerDocker> OnPlayerDocking;
-        public static event Action<PlayerDocker> OnPlayerTakeOff;
+        public static event Action<PlayerShipDocker> OnPlayerDocking;
+        public static event Action<PlayerShipDocker> OnPlayerTakeOff;
 
         private void Awake()
         {

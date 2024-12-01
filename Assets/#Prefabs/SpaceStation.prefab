@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7714518588105420353}
   - component: {fileID: 5542680454118447755}
   - component: {fileID: 7714518588105420352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpaceStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6569092830880111908}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6569092832269467298}
   - component: {fileID: 6569092832269467229}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6569092832516527975}
   - component: {fileID: 6569092832516527974}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: collider1
   m_TagString: platform
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6569092832574815080}
   - component: {fileID: 6569092832574815083}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: collider1 (1)
   m_TagString: platform
   m_Icon: {fileID: 0}

@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Generator.Asteroid
     /// Astreoid Generator for the environment aspects. This script will run at the start of the game to form a map.
     /// This will create a feeling of movement within space. We can compare speed of our vehicle relative to the static environment.
     /// </summary>
-    public class AsteroidGenerator : MonoBehaviour
+    public class AsteroidGenerator : NetworkBehaviour
     {
 
         [Header("Asteroid Generation Settings")]
@@ -23,14 +24,17 @@ namespace Generator.Asteroid
 
         private void GenerateAsteroids()
         {
+            if (!isServerOnly) return;
+
             float defaultScale = _asteroidPrefabs[0].transform.localScale.x;
 
             for (int i = 0; i < _asteroidCount; i++)
             {
-                CreateRandomAsteroids()
+                Asteroid ast = CreateRandomAsteroids()
                     .SetRandomPosition(_asteroidRandomPositionRange)
                     .SetRandomRotation()
                     .SetRandomScale(_asteroidScaleRange.x, _asteroidScaleRange.y);
+                NetworkServer.Spawn(ast.GameObject);
             }
         }
 
@@ -44,6 +48,7 @@ namespace Generator.Asteroid
     }
     public class Asteroid
     {
+        public GameObject GameObject { get { return _gameObject; } }
         private GameObject _gameObject;
 
         public Asteroid(GameObject gameObject)

@@ -3,30 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using GameUtility;
+using Cinemachine;
+using Game.CameraControl;
+using Mirror;
 
-namespace Game.Player.CameraMovement
+namespace Player.ShipCamera
 {
     public class PlayerCameraMovement : MonoBehaviour
     {
         [Header("FreeLook Settings")]
-        [SerializeField] private Cinemachine.CinemachineFreeLook _freeLookCam;
         [SerializeField] private KeyCode _freeLookKey = KeyCode.LeftAlt;
 
         //All manipulators that is going to be stopped during freelook.
         private ICameraDependent[] _cameraDependents;
+        private CinemachineFreeLook _freeLookCam;
+        private CinemachineVirtualCamera _virtualCam;
+        private NetworkIdentity networkIdentity;
 
         private bool _isResumed = false;
         private void Start() => Init();
         private void Update() => FreeLook();
         private void Init()
         {
+            networkIdentity = GetComponent<NetworkIdentity>();
+
+            if (!networkIdentity.isLocalPlayer) return;
+
             _cameraDependents = FindObjectsOfType<MonoBehaviour>()
                 .OfType<ICameraDependent>()
                 .ToArray();
+
+            // Set Cameras for player
+            _freeLookCam = CameraManager.Instance.FreeLook;
+            _virtualCam = CameraManager.Instance.MainVirtualCamera;
+
+            _freeLookCam.Follow = transform;
+            _freeLookCam.LookAt = transform;
+            _virtualCam.Follow = transform;
+            _virtualCam.LookAt = transform;
         }
 
         private bool SetManipulators(bool shouldDisable)
         {
+            if (shouldDisable && (_cameraDependents == null || _cameraDependents.Length == 0)) return true;
+
+            if (!shouldDisable && (_cameraDependents == null || _cameraDependents.Length == 0)) return false;
+
             //When the button is pressed.
             if (shouldDisable)
             {
@@ -55,6 +77,7 @@ namespace Game.Player.CameraMovement
         {
             _isResumed = true;
             yield return new WaitForSeconds(1.25f);
+            if (_cameraDependents == null) yield return null;
             foreach (var dependent in _cameraDependents)
             {
                 dependent.ResumeManipulating();
@@ -65,6 +88,9 @@ namespace Game.Player.CameraMovement
         //Responsible of looking around the space ship
         private void FreeLook()
         {
+            if (!networkIdentity.isLocalPlayer) return;
+
+
             if (SetManipulators(Input.GetKey(_freeLookKey)))
             {
                 _freeLookCam.Priority = 11;

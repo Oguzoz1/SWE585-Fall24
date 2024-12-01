@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &914144865506636986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 914144865506636987}
+  - component: {fileID: 914144865506636985}
+  - component: {fileID: 914144865506636984}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &914144865506636987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914144865506636986}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.6339154, y: 22.947777, z: 344.43597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &914144865506636985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914144865506636986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6324cd8ec5c63b94683d649b17031fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  headlessStartMode: 0
+  editorAutoStart: 0
+  sendRate: 60
+  offlineScene: Assets/Scenes/Main Menu (Desktop).unity
+  onlineScene: Assets/Scenes/MainGame.unity
+  offlineSceneLoadDelay: 0
+  transport: {fileID: 914144865506636984}
+  networkAddress: 127.0.0.1
+  maxConnections: 8
+  disconnectInactiveConnections: 1
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 7174132175670240492, guid: 81999e96745212646b19ad4d2ed368c7, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 1
+  spawnPrefabs:
+  - {fileID: 1127873579969909694, guid: 889c6dd8edbb07b4287644cc80c6e588, type: 3}
+  - {fileID: 6308882065662496773, guid: ee312cfa502e195489f4f582cee3e361, type: 3}
+  - {fileID: 1271698349301333436, guid: 783ca9c76f5c3f449a6eef346a99f631, type: 3}
+  - {fileID: 7390170269791344010, guid: 1d8304eeccc1ff64688cf4d48b51ff28, type: 3}
+  - {fileID: 74448397825308485, guid: 64aecf6c4d0ea264faf1ba074801b459, type: 3}
+  - {fileID: 3030849035539058208, guid: 34557eec2695e8e40bc79ffc605a6b6a, type: 3}
+  - {fileID: 5866036284515409984, guid: a5c15b83f4fb9c34badcab2b2974ae6e, type: 3}
+  - {fileID: 6608066491859862455, guid: 7b96fab7a5bcd424b966f52724acfdfb, type: 3}
+  - {fileID: 58731282080117947, guid: 184a08ff88bf9cb48a68e67b02ff3045, type: 3}
+  - {fileID: 7962095188331550294, guid: 27cdb70f64ff12948ad275923fdfa28d, type: 3}
+  exceptionsDisconnect: 1
+  snapshotSettings:
+    bufferTimeMultiplier: 2
+    bufferLimit: 32
+    catchupNegativeThreshold: -1
+    catchupPositiveThreshold: 1
+    catchupSpeed: 0.019999999552965164
+    slowdownSpeed: 0.03999999910593033
+    driftEmaDuration: 1
+    dynamicAdjustment: 1
+    dynamicAdjustmentTolerance: 1
+    deliveryTimeEmaDuration: 2
+  evaluationMethod: 0
+  evaluationInterval: 3
+  timeInterpolationGui: 0
+  _playerDataSO: {fileID: 11400000, guid: 5f7bfc0b7d70f2144b8e9cd0d66050ce, type: 2}
+--- !u!114 &914144865506636984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914144865506636986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 7777
+  DualMode: 1
+  NoDelay: 1
+  Interval: 10
+  Timeout: 10000
+  RecvBufferSize: 7361536
+  SendBufferSize: 7361536
+  FastResend: 2
+  ReceiveWindowSize: 4096
+  SendWindowSize: 4096
+  MaxRetransmit: 40
+  MaximizeSocketBuffers: 1
+  ReliableMaxMessageSize: 297433
+  UnreliableMaxMessageSize: 1194
+  debugLog: 0
+  statisticsGUI: 0
+  statisticsLog: 0

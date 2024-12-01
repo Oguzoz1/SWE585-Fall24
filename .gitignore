@@ -71,3 +71,12 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Release
+
+/Assets/Mirror
+/Assets/Mirror.meta
+/Assets/Sci-Fi Sounds
+/Assets/Sci-Fi Sounds.meta
+/Assets/SpaceSkies Free
+/Assets/SpaceSkies Free.meta
+/Assets/vHierarchy
+/Assets/vHierarchy.meta

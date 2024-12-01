@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - dock
+  - platform
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - Water
   - UI
   - bullet
-  - 
-  - 
+  - canCollide
+  - Damageable
   - 
   - 
   - 

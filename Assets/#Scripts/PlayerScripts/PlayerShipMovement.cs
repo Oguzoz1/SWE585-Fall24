@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-namespace Player
+namespace Player.Ship
 {
-    public class PlayerMovement : MonoBehaviour
-    {   [Header("------------------------MOVEMENT------------------------------------------")]
+    public class PlayerShipMovement : NetworkBehaviour
+    {
+        [Header("------------------------MOVEMENT------------------------------------------")]
         [Header("Movement Keybinds")]
         [SerializeField] private KeyCode _forwardKey = KeyCode.LeftShift;
         [SerializeField] private KeyCode _backwardKey = KeyCode.LeftControl;
@@ -17,6 +17,7 @@ namespace Player
         [SerializeField] private KeyCode _downwardKey = KeyCode.C;
         [SerializeField] private KeyCode _pitchUpwardKey = KeyCode.S;
         [SerializeField] private KeyCode _pitchDownwardKey = KeyCode.W;
+        [SerializeField] private KeyCode _stabilizeAxisKey = KeyCode.T;
 
         [Header("General Speed Settings")]
         [SerializeField] private float _thrustPower = 1000f;
@@ -25,7 +26,7 @@ namespace Player
 
         [Header("---ROLL AXIS SETTINGS---")]
         [Header("Roll Axis Spring Effect Settings")]
-        [SerializeField] private float _springStrength = 5f; 
+        [SerializeField] private float _springStrength = 5f;
         [SerializeField] private float _dampingFactor = 0.3f;
         [SerializeField] private float _rollRotationSpeed = 60f;
 
@@ -49,6 +50,8 @@ namespace Player
 
         private void ApplyMovement()
         {
+            if (!isLocalPlayer) return;
+
             ApplyRotation();
             Movement();
             ClampSpeedAtLimit();
@@ -153,7 +156,9 @@ namespace Player
             // Rotating Original
             if (!isRolling && !isPitching && !isYawing)
             {
-                RollSpringDampRotationToTarget();
+
+                if (Input.GetKey(_stabilizeAxisKey))
+                    RollSpringDampRotationToTarget();
             }
         }
 

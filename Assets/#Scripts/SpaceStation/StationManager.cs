@@ -1,6 +1,4 @@
-using Player;
-using System.Collections;
-using System.Collections.Generic;
+using Player.Ship;
 using UnityEngine;
 
 namespace SpaceStation
@@ -12,23 +10,23 @@ namespace SpaceStation
         {
             _animator = GetComponent<Animator>();
 
-            PlayerDocker.OnPlayerDocking += HandlePlayerDocking;
-            PlayerDocker.OnPlayerTakeOff += HandlePlayerTakeOff;
+            PlayerShipDocker.OnPlayerDocking += HandlePlayerDocking;
+            PlayerShipDocker.OnPlayerTakeOff += HandlePlayerTakeOff;
 
         }
 
         private void OnDestroy()
         {
-            PlayerDocker.OnPlayerDocking -= HandlePlayerDocking;
-            PlayerDocker.OnPlayerTakeOff -= HandlePlayerTakeOff;
+            PlayerShipDocker.OnPlayerDocking -= HandlePlayerDocking;
+            PlayerShipDocker.OnPlayerTakeOff -= HandlePlayerTakeOff;
         }
-        private void HandlePlayerDocking(PlayerDocker docker)
+        private void HandlePlayerDocking(PlayerShipDocker docker)
         {
             //Run animations and sounds
             _animator.SetBool("shipDocked", true);
             Debug.Log("Player Docked");
         }
-        private void HandlePlayerTakeOff(PlayerDocker docker)
+        private void HandlePlayerTakeOff(PlayerShipDocker docker)
         {
             _animator.SetBool("shipDocked", false);
             Debug.Log("Player Took Off");

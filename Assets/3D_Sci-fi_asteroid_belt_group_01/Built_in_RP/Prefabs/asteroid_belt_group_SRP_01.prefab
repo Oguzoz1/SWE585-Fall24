@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2967391380603766532}
   - component: {fileID: 1173491795432570480}
   - component: {fileID: 5767527133165487197}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_05_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 4
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -90,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2099302880287158098}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_belt_group_SRP_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +109,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1158873147682221676}
   - {fileID: 4617720325059069022}
@@ -131,7 +134,7 @@ GameObject:
   - component: {fileID: 2895857160884541576}
   - component: {fileID: 8581753436657050975}
   - component: {fileID: 7196858829436238472}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_07_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +151,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.768, y: 0, z: -1.158}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 6
@@ -171,6 +175,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -212,7 +217,7 @@ GameObject:
   - component: {fileID: 6795539170263080871}
   - component: {fileID: 6249778061832070182}
   - component: {fileID: 3918895240544869444}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_08_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,6 +234,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: 0, z: -1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 7
@@ -252,6 +258,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -293,7 +300,7 @@ GameObject:
   - component: {fileID: 8697092506435514799}
   - component: {fileID: 4679731932895248687}
   - component: {fileID: 7744945918183438258}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_06_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,6 +317,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.036, y: 0, z: -1.131}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 5
@@ -333,6 +341,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -374,7 +383,7 @@ GameObject:
   - component: {fileID: 1158873147682221676}
   - component: {fileID: 9169249025532001629}
   - component: {fileID: 2075336736293413302}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_01_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,6 +400,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 0
@@ -414,6 +424,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -455,7 +466,7 @@ GameObject:
   - component: {fileID: 6888845466019056575}
   - component: {fileID: 4114647976097312888}
   - component: {fileID: 560471571565787747}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_03_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,6 +483,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 2
@@ -495,6 +507,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -536,7 +549,7 @@ GameObject:
   - component: {fileID: 4617720325059069022}
   - component: {fileID: 95633510663795966}
   - component: {fileID: 5390928656787800622}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_02_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,6 +566,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 1
@@ -576,6 +590,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -617,7 +632,7 @@ GameObject:
   - component: {fileID: 8943040561990265313}
   - component: {fileID: 7920582514086690101}
   - component: {fileID: 7546946746714271800}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_09_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,6 +649,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.5, y: 0, z: -1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 8
@@ -657,6 +673,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -698,7 +715,7 @@ GameObject:
   - component: {fileID: 4946960915261488515}
   - component: {fileID: 8706627948899364554}
   - component: {fileID: 2933273421462463517}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: asteroid_mod_04_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,6 +732,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2099302880287158098}
   m_RootOrder: 3
@@ -738,6 +756,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

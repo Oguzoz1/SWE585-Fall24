@@ -1,16 +1,16 @@
-using Game.Player.CameraMovement;
 using GameUtility;
+using Player.ShipCamera;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Game.Player
+namespace Player.Ship
 {
-    public class PlayerMouseAim : MonoBehaviour, ICameraDependent
+    public class PlayerShipMouseAim : MonoBehaviour, ICameraDependent
     {
-        [SerializeField] private float rotationSpeed = 0.25f;
+        [SerializeField] private float rotationSpeed = 5f;
         [SerializeField] private float maxTiltAngle = 1.0f;
-        [SerializeField] private float deadZoneRadius = 50.0f;
+        [SerializeField] private float deadZoneRadius = 60.0f;
 
         [Header("UI Elements")]
         [SerializeField] private RectTransform deadZoneUI;
