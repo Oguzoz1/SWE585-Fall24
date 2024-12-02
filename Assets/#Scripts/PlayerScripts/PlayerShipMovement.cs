@@ -103,19 +103,16 @@ namespace Player.Ship
             float roll = _rollRotationSpeed * Time.deltaTime;
             float pitch = _rotationSpeed * Time.deltaTime;
 
-            bool isYawing = false, isRolling = false, isPitching = false;
             MovementActivated = false;
             // Yaw Rotation
             if (Input.GetKey(_yawLeftKey))
             {
                 transform.Rotate(0, -yaw, 0);
-                isYawing = true;
                 MovementActivated = true;
             }
             else if (Input.GetKey(_yawRightKey))
             {
                 transform.Rotate(0, yaw, 0);
-                isYawing = true;
                 MovementActivated = true;
 
             }
@@ -124,14 +121,12 @@ namespace Player.Ship
             if (Input.GetKey(_rollLeftKey))
             {
                 transform.Rotate(0, 0, roll);
-                isRolling = true;
                 MovementActivated = true;
 
             }
             else if (Input.GetKey(_rollRightKey))
             {
                 transform.Rotate(0, 0, -roll);
-                isRolling = true;
                 MovementActivated = true;
 
             }
@@ -141,20 +136,18 @@ namespace Player.Ship
             {
                 transform.Rotate(pitch, 0, 0);
                 // Increment target pitch
-                isPitching = true;
                 MovementActivated = true;
 
             }
             else if (Input.GetKey(_pitchUpwardKey))
             {
                 transform.Rotate(-pitch, 0, 0);
-                isPitching = true;
                 MovementActivated = true;
 
             }
 
             // Rotating Original
-            if (!isRolling && !isPitching && !isYawing)
+            if (!MovementActivated)
             {
 
                 if (Input.GetKey(_stabilizeAxisKey))

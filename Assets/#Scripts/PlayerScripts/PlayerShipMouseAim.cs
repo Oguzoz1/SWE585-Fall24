@@ -1,4 +1,5 @@
 using GameUtility;
+using Mirror;
 using Player.ShipCamera;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +7,15 @@ using UnityEngine.UI;
 
 namespace Player.Ship
 {
-    public class PlayerShipMouseAim : MonoBehaviour, ICameraDependent
+    public class PlayerShipMouseAim : NetworkBehaviour, ICameraDependent
     {
         [SerializeField] private float rotationSpeed = 5f;
         [SerializeField] private float maxTiltAngle = 1.0f;
         [SerializeField] private float deadZoneRadius = 60.0f;
 
+        /// <summary>
+        /// Set the UI elements and re-assign them during init with original created objects.
+        /// </summary>
         [Header("UI Elements")]
         [SerializeField] private RectTransform deadZoneUI;
         [SerializeField] private RectTransform mouseDotUI;
@@ -19,7 +23,7 @@ namespace Player.Ship
         [SerializeField] private Canvas aimingCanvas;
 
         [Header("UI Colors")]
-        [SerializeField] private Color deadZoneColor = new Color(1, 1, 1, 0.5f);
+        [SerializeField] private Color deadZoneColor = new Color(1, 1, 1, 0.2f);
         [SerializeField] private Color mouseDotColor = new Color(0, 0, 1, 0.7f);
         [SerializeField] private Color aimingReticleColor = new Color(1, 0, 0, 0.7f);
 
@@ -27,25 +31,21 @@ namespace Player.Ship
         private Vector3 lastMousePosition;
         private Vector2 targetRotation;
 
+
         private void Start()
         {
-            screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            Cursor.visible = false;
+            if (!isLocalPlayer) return;
 
-            deadZoneUI.position = screenCenter;
-            deadZoneUI.sizeDelta = Vector2.one * deadZoneRadius * 2f;
-            deadZoneUI.GetComponent<Image>().color = deadZoneColor;
+            Init();
+            ConfigureUIElements();
 
-            mouseDotUI.GetComponent<Image>().color = mouseDotColor;
-
-            aimingReticleUI.GetComponent<Image>().color = aimingReticleColor;
-            CursorUtility.CenterCursor();
-            CursorUtility.ReleaseCursor();
         }
 
         private void FixedUpdate()
         {
-            //If the manipulating is not functioning, return
+            if (!isLocalPlayer) return;
+
+            //If UI manipulating is not functioning, return
             if (!isManipulating()) return;
 
             // Calculate mouse offset from the screen center.
@@ -107,6 +107,38 @@ namespace Player.Ship
             // Update aiming reticle UI position
             aimingReticleUI.localPosition = uiPosition;
         }
+
+        #region Script Setters
+        private void Init()
+        {
+            //Create Canvas from Prefab
+            aimingCanvas = Instantiate(aimingCanvas.gameObject).GetComponent<Canvas>();
+
+            //Create Aim Components from prefabs
+            deadZoneUI = Instantiate(deadZoneUI, aimingCanvas.transform);
+            mouseDotUI = Instantiate(mouseDotUI, aimingCanvas.transform);
+            aimingReticleUI = Instantiate(aimingReticleUI, aimingCanvas.transform);
+        }
+
+        private void ConfigureUIElements()
+        {
+            Debug.Log("Dealth with Cursor");
+            screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+            Cursor.visible = false;
+
+            deadZoneUI.position = screenCenter;
+            deadZoneUI.sizeDelta = Vector2.one * deadZoneRadius * 2f;
+            deadZoneUI.GetComponent<Image>().color = deadZoneColor;
+
+            mouseDotUI.GetComponent<Image>().color = mouseDotColor;
+
+            aimingReticleUI.GetComponent<Image>().color = aimingReticleColor;
+            CursorUtility.CenterCursor();
+            CursorUtility.ReleaseCursor();
+        }
+        #endregion
+
+        #region Dependendent Methods
         //Deactivate the aiming canvas
         public void StopManipulating()
         {
@@ -122,5 +154,6 @@ namespace Player.Ship
         {
             return aimingCanvas.enabled;
         }
+        #endregion
     }
 }

@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player.Ship
@@ -15,12 +13,9 @@ namespace Player.Ship
         private float _lastAttackElapsed = 0f;
         private AudioSource _fireSound;
 
-        LODGroup[] grps;
-
         private void Start()
         {
             _fireSound = _projectileSpawnPoint.GetComponent<AudioSource>();
-            grps = FindObjectsOfType<LODGroup>();
         }
 
         private void Update()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerMovementEffects : MonoBehaviour
+    public class PlayerShipMovementEffects : MonoBehaviour
     {
         [SerializeField] private ParticleSystem[] _engineEffects;
 

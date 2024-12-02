@@ -40,7 +40,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7405954339609755271}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.32
   m_Height: 2.6721444
@@ -94,9 +94,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c595416618c12d549b7be1ea56290cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletThrust: 1200
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _bulletThrust: 400
   _explosion: {fileID: 4068624088862348988, guid: abd7130fd6675f442b2c3105dfe0f5e5, type: 3}
   _meshRenderer: {fileID: 568314197045326690}
+  _damage: 0
 --- !u!54 &6527854832818631499
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -105,14 +109,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7962095188331550294}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!114 &3335680582963893494
 MonoBehaviour:
   m_ObjectHideFlags: 0
