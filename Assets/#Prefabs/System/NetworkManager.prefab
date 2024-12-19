@@ -50,8 +50,8 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 60
-  offlineScene: Assets/Scenes/Main Menu (Desktop).unity
-  onlineScene: Assets/Scenes/MainGame.unity
+  offlineScene: 
+  onlineScene: 
   offlineSceneLoadDelay: 0
   transport: {fileID: 914144865506636984}
   networkAddress: 127.0.0.1

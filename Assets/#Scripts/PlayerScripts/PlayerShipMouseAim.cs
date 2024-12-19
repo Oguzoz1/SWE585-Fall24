@@ -14,7 +14,7 @@ namespace Player.Ship
         [SerializeField] private float deadZoneRadius = 60.0f;
 
         /// <summary>
-        /// Set the UI elements and re-assign them during init with original created objects.
+        /// Assisgned prefabs are re-assigned with instantiated objects.
         /// </summary>
         [Header("UI Elements")]
         [SerializeField] private RectTransform deadZoneUI;

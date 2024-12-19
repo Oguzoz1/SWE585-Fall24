@@ -20,6 +20,8 @@ namespace Game.Network
         public override void OnClientConnect()
         {
             base.OnClientConnect();
+            Debug.Log("Client connected to the server!");
+
         }
 
         public override void OnServerSceneChanged(string newSceneName)
@@ -34,7 +36,7 @@ namespace Game.Network
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             base.OnServerAddPlayer(conn);
-            // Add player-related logic here: Set PlayerName and Statez
+            Debug.Log($"Player connected: {conn.connectionId}");
         }
 
         public override void OnStartServer()

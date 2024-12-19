@@ -25,24 +25,39 @@ namespace Player.Ship
             bool canShoot = (_lastAttackElapsed += Time.deltaTime) >= _attackSpeed;
             if (Input.GetKey(_attackInput) && canShoot)
             {
-                CmdFireProjectile();
+                FireProjectile();
                 _lastAttackElapsed = 0f;
             }
 
         }
-
-        [Command]
-        void CmdFireProjectile()
+        //First intantiate locally
+        void FireProjectile()
         {
             // Create projectile on the server.
             Quaternion projectileOrientation = Quaternion.LookRotation(_projectileSpawnPoint.forward);
-            GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, projectileOrientation);
+            GameObject pj = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, projectileOrientation);
 
-            NetworkServer.Spawn(projectile, connectionToClient); // Spawn the projectile on all clients.
+            CmdFireProjectile(pj.transform.position, pj.transform.rotation);
 
-            RpcPlayFireSound(); // Play fire sound on clients.
+            TargetReconcileProjectile(pj);
+        }
+        //Send command to server
+        [Command]
+        void CmdFireProjectile(Vector3 spawnPos, Quaternion rot)
+        {
+            GameObject projectile = Instantiate(_projectilePrefab, spawnPos, rot);
+            NetworkServer.Spawn(projectile, connectionToClient);
 
-            Destroy(projectile, 10f); // Destroy the projectile after 10 seconds.
+            RpcPlayFireSound(); 
+
+            Destroy(projectile, 10f); 
+        }
+
+
+        void TargetReconcileProjectile(GameObject obj)
+        {
+            if (obj != null)
+                Destroy(obj);
         }
 
         [ClientRpc]

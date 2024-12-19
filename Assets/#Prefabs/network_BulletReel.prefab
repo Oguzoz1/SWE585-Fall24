@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 3868177411020988608}
   - component: {fileID: 6527854832818631499}
   - component: {fileID: 3335680582963893494}
+  - component: {fileID: 922317731206417951}
   m_Layer: 6
   m_Name: network_BulletReel
   m_TagString: Untagged
@@ -100,7 +101,7 @@ MonoBehaviour:
   _bulletThrust: 400
   _explosion: {fileID: 4068624088862348988, guid: abd7130fd6675f442b2c3105dfe0f5e5, type: 3}
   _meshRenderer: {fileID: 568314197045326690}
-  _damage: 0
+  _damage: 5
 --- !u!54 &6527854832818631499
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -134,6 +135,43 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &922317731206417951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962095188331550294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38927cdc6024b9682b5fe9778b9ef99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  predictedRigidbody: {fileID: 6527854832818631499}
+  mode: 1
+  motionSmoothingVelocityThreshold: 0.1
+  motionSmoothingAngularVelocityThreshold: 5
+  motionSmoothingTimeTolerance: 0.5
+  stateHistoryLimit: 32
+  recordInterval: 0.05
+  onlyRecordChanges: 1
+  compareLastFirst: 1
+  positionCorrectionThreshold: 0.1
+  rotationCorrectionThreshold: 5
+  oneFrameAhead: 1
+  snapThreshold: 2
+  showGhost: 1
+  ghostVelocityThreshold: 0.1
+  localGhostMaterial: {fileID: 2100000, guid: 411a48b4a197d4924bec3e3809bc9320, type: 2}
+  remoteGhostMaterial: {fileID: 2100000, guid: 04f0b2088c857414393bab3b80356776, type: 2}
+  checkGhostsEveryNthFrame: 4
+  positionInterpolationSpeed: 15
+  rotationInterpolationSpeed: 10
+  teleportDistanceMultiplier: 10
+  reduceSendsWhileIdle: 1
 --- !u!1001 &1237518204895242921
 PrefabInstance:
   m_ObjectHideFlags: 0

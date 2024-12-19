@@ -59,7 +59,7 @@ namespace Player.Ship
             }
         }
 
-        [Server]
+        [Command]
         public void DestroyItself()
         {
             NetworkServer.Destroy(gameObject);

@@ -9,22 +9,47 @@ namespace PathFinding.Octrees
         [SerializeField] private GameObject[] _sceneObjects;
         [SerializeField] private float _minNodeSize = 1f;
 
-        private Octree _octree;
+        public Octree Octree;
+        public Graph Waypoints = new Graph();
+        public OctreeSO OctreeData;
 
-        private void Awake() => InitializeOctree();
-        private void InitializeOctree()
+
+        public void InitializeOctree()
         {
-            _octree = new Octree(_sceneObjects, _minNodeSize);
+            Octree = new Octree(_sceneObjects, _minNodeSize, Waypoints);
+
+            SaveOctree();
+        }
+        private void SaveOctree()
+        {
+            OctreeData.Octree = Octree;
+            //Not serializable
+            OctreeData.Octree.Graph.Nodes = Octree.Graph.Nodes;
+            OctreeData.Octree.Graph.Edges = Octree.Graph.Edges;
+            OctreeData.Octree.Graph._pathList = Octree.Graph._pathList;
+        }
+        private void LoadOctree()
+        {
+            Octree = OctreeData.Octree;
+            Waypoints = OctreeData.Octree.Graph;
+            Octree.Graph.Nodes = OctreeData.Octree.Graph.Nodes;
+            Octree.Graph.Edges = OctreeData.Octree.Graph.Edges;
+            Octree.Graph._pathList = OctreeData.Octree.Graph._pathList;
+        }
+        private void Awake()
+        {
+            Octree = new Octree(_sceneObjects, _minNodeSize, Waypoints);
+            //LoadOctree();
+            Debug.Log(Waypoints.Edges.Count);
+            Debug.Log(Waypoints.Nodes.Count);
         }
 
-        private void OnDrawGizmos()
+        public void OnDrawGizmosSelected()
         {
-            if (!Application.isPlaying) return;
-
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(_octree.bounds.center, _octree.bounds.size);
+            Gizmos.DrawWireCube(Octree.Bounds.center, Octree.Bounds.size);
 
-            _octree.root.DrawNode();
+            Octree.Root.DrawNode();
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace PathFinding.Octrees
 {
+    [System.Serializable]
     public class OctreeNode
     {
         //Game Objects that are inside or partially inside of the node.

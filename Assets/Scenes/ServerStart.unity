@@ -139,12 +139,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
+      propertyPath: onlineScene
+      value: Assets/Scenes/MainGame.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
       propertyPath: offlineScene
       value: Assets/Scenes/ServerStart.unity
       objectReference: {fileID: 0}
     - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
       propertyPath: networkAddress
-      value: localhost
+      value: 127.0.0.1
       objectReference: {fileID: 0}
     - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
       propertyPath: headlessStartMode

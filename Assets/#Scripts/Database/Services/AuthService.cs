@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Database.Services
 {
     using Payload;
+    using System;
     using System.Text;
     using UnityEngine.Networking;
     using Utility;
@@ -13,7 +14,7 @@ namespace Database.Services
     {
         private string apiUrl = AppUrls.API_AUTH_URL;
 
-        public IEnumerator Login(UserLoginPayload userLogin)
+        public IEnumerator Login(UserLoginPayload userLogin, Action<string> onError)
         {
             Debug.Log("Login started");
             byte[] postData = ApiUtility.PreparePostData(userLogin);
@@ -37,16 +38,19 @@ namespace Database.Services
                 }
                 else
                 {
-                    Debug.LogError($"Error: {request.error}");
+                    ApiResponse<string> response = JsonUtility.FromJson<ApiResponse<string>>(request.downloadHandler.text);
+                    Debug.LogError($"Error: {response.errors}");
                     if (!string.IsNullOrEmpty(request.downloadHandler.text))
                     {
                         Debug.LogError($"Server Response: {request.downloadHandler.text}");
+
+                        onError?.Invoke(response.message);
                     }
                 }
             }
         }
 
-        public IEnumerator RegisterUser(RegisterPayload newRegistration)
+        public IEnumerator RegisterUser(RegisterPayload newRegistration, Action<bool> onSucceed)
         {
             Debug.Log("Registration Started");
             byte[] postData = ApiUtility.PreparePostData(newRegistration);
@@ -67,6 +71,8 @@ namespace Database.Services
                     ApiResponse<string> response = JsonUtility.FromJson<ApiResponse<string>>(request.downloadHandler.text);
 
                     UserProperties.SetUserToken(response.data);
+
+                    onSucceed?.Invoke(true);
                 }
                 else
                 {
@@ -75,6 +81,7 @@ namespace Database.Services
                     {
                         Debug.LogError($"Server Response: {request.downloadHandler.text}");
                     }
+                    onSucceed?.Invoke(false);
                 }
             }
         }
