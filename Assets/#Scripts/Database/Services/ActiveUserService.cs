@@ -10,39 +10,38 @@ namespace Database.Services
     {
         private string apiUrl = AppUrls.API_ACTIVEUSER_URL;
 
-        //Right now usercredId is used to determine the active users.
+        public IEnumerator ServerMovePlayerToInGame(int playerId)
+        {
+            Debug.Log("Moving player to in-game players...");
+
+            yield return ApiUtility.SendRequestWithToken<string>($"{apiUrl}/player-to-game/{playerId}", "POST",
+                onSuccess: (response) =>
+                {
+                    Debug.Log(response.message);
+                    Debug.Log(response.data);
+
+                },
+                onError: (error) =>
+                {
+                    Debug.Log(error);
+                });
+        }
+
         public IEnumerator SendHeartbeat(int playerId)
         {
             Debug.Log("Sending heartbeat...");
-            string token = UserProperties.USER_TOKEN;
 
-            // Prepare the playerId payload
-            byte[] postData = ApiUtility.PreparePostData(playerId);
 
-            using (UnityWebRequest request = new UnityWebRequest($"{apiUrl}/heartbeat/{playerId}", "POST"))
-            {
-                request.uploadHandler = new UploadHandlerRaw(postData);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Authorization", $"Bearer {token}");
-
-                // Send the request
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return ApiUtility.SendRequestWithToken<string>($"{apiUrl}/heartbeat/{playerId}", "POST",
+                onSuccess: (response) =>
                 {
-                    Debug.Log($"Heartbeat sent successfully for player {playerId}");
-                }
-                else
+                    Debug.Log(response.data);
+                },
+                onError: (error) =>
                 {
-                    Debug.LogError($"Failed to send heartbeat for player {playerId}: {request.error}");
-                    if (!string.IsNullOrEmpty(request.downloadHandler.text))
-                    {
-                        Debug.LogError($"Server Response: {request.downloadHandler.text}");
-                    }
-                }
-            }
+                    Debug.LogError(error);
+                });
         }
-
         public IEnumerator RemovePlayer(int playerId)
         {
             Debug.Log("Removing player...");
@@ -50,7 +49,7 @@ namespace Database.Services
 
             using (UnityWebRequest request = UnityWebRequest.Delete(url))
             {
-                string token = UserProperties.USER_TOKEN; 
+                string token = TokenManager.GetToken(); 
                 if (!string.IsNullOrEmpty(token))
                 {
                     request.SetRequestHeader("Authorization", $"Bearer {token}");
@@ -73,6 +72,5 @@ namespace Database.Services
                 }
             }
         }
-
     }
 }

@@ -151,6 +151,10 @@ PrefabInstance:
       value: 127.0.0.1
       objectReference: {fileID: 0}
     - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
+      propertyPath: autoCreatePlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 914144865506636985, guid: 57a6761776fd2774ca17c3eff7992183, type: 3}
       propertyPath: headlessStartMode
       value: 1
       objectReference: {fileID: 0}

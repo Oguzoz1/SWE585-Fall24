@@ -12,6 +12,7 @@ namespace Database.Services
     public class PlayerService : IDatabaseService
     {
         private string apiUrl = AppUrls.API_PLAYER_URL;
+
         public IEnumerator CreatePlayerAsync(PlayerPayload newPlayer)
         {
             byte[] postData = ApiUtility.PreparePostData(newPlayer);
@@ -38,69 +39,46 @@ namespace Database.Services
 
         public IEnumerator GetPlayerByIdAsync(long id)
         {
-            string token = UserProperties.USER_TOKEN;
-            using (UnityWebRequest request = UnityWebRequest.Get($"{apiUrl}/{id}"))
-            {
-                request.SetRequestHeader("Authorization", $"Bearer {token}");
 
-                yield return request.SendWebRequest();
+            yield return ApiUtility.SendGetRequestWithToken<PlayerPayload>($"{apiUrl}/{id}",
+                onSuccess: (response) =>
+                {
+                    Debug.Log($"Fetched Player: {response.data.playerName}");
 
-                if (request.result == UnityWebRequest.Result.Success)
+                    //TODO
+                    throw new NotImplementedException();
+                },
+                onError: (error) =>
                 {
-                    string jsonResult = request.downloadHandler.text;
-                    PlayerPayload fetchedPlayer = JsonUtility.FromJson<PlayerPayload>(jsonResult);
-                    Debug.Log($"Fetched Player: {fetchedPlayer.playerName}");
+                    Debug.Log($"Fetching Failed: {error}");
                 }
-                else
-                {
-                    Debug.LogError($"Error fetching player: {request.error}");
-                }
-            }
+                );
         }
 
         public IEnumerator GetPlayerByLoginNameAsync(string loginname, Action<PlayerPayload> onSuccess, Action<string> onError = null)
         {
-            string token = UserProperties.USER_TOKEN;
 
-            using (UnityWebRequest request = UnityWebRequest.Get($"{apiUrl}/loginname/{loginname}"))
-            {
-                request.SetRequestHeader("Authorization", $"Bearer {token}");
-
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return ApiUtility.SendGetRequestWithToken<PlayerPayload>($"{apiUrl}/loginname/{loginname}",
+                onSuccess: (response) =>
                 {
-                    try
+                    if (response != null || response.data != null)
                     {
-                        string jsonResult = request.downloadHandler.text;
-                        PlayerPayload response = JsonUtility.FromJson<PlayerPayload>(jsonResult);
-
-                        if (response != null)
-                        {
-                            PlayerPayload playerPayload = response;
-                            onSuccess?.Invoke(playerPayload); 
-                        }
-                        else
-                        {
-                            onError?.Invoke("Error: Unable to parse server response.");
-                        }
+                        Debug.Log($"Fetching Player Complete: {response.data.playerName}");
+                        Debug.Log(response.data);
+                        Debug.Log(response);
+                        onSuccess?.Invoke(response.data);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Debug.LogError($"Parsing error: {ex.Message}");
-                        onError?.Invoke("Error: Failed to parse response.");
+                        onError?.Invoke("Error: Unable to parse server response.");
                     }
-                }
-                else
+                },
+                onError: (error) =>
                 {
-                    Debug.LogError($"Error: {request.error}");
-                    onError?.Invoke($"Error: {request.error}");
-                    if (!string.IsNullOrEmpty(request.downloadHandler.text))
-                    {
-                        Debug.LogError($"Server Response: {request.downloadHandler.text}");
-                    }
-                }
-            }
+                    Debug.LogError($"Fetching faield: {error}");
+                    onError?.Invoke($"Fetching faield: {error}");
+                });
+            
         }
 
     }

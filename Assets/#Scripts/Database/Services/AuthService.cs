@@ -13,77 +13,56 @@ namespace Database.Services
     internal class AuthService : IDatabaseService
     {
         private string apiUrl = AppUrls.API_AUTH_URL;
-
-        public IEnumerator Login(UserLoginPayload userLogin, Action<string> onError)
+        public IEnumerator ClientLogin(UserLoginPayload userLogin, Action<string> onError)
         {
             Debug.Log("Login started");
-            byte[] postData = ApiUtility.PreparePostData(userLogin);
 
-            using (UnityWebRequest request = new UnityWebRequest($"{apiUrl}/login", "POST"))
-            {
-                request.uploadHandler = new UploadHandlerRaw(postData);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return ApiUtility.SendRequestNoToken<UserLoginPayload, string>($"{apiUrl}/login", "POST", userLogin,
+                onSuccess: (response) =>
                 {
                     Debug.Log("User logged in successfully");
-                    Debug.Log(request.downloadHandler.text);
-
-                    ApiResponse<string> response = JsonUtility.FromJson<ApiResponse<string>>(request.downloadHandler.text);
-
-                    UserProperties.SetUserToken(response.data);
-                }
-                else
+                    TokenManager.SetUserToken(response.data);
+                },
+                onError: (error) =>
                 {
-                    ApiResponse<string> response = JsonUtility.FromJson<ApiResponse<string>>(request.downloadHandler.text);
-                    Debug.LogError($"Error: {response.errors}");
-                    if (!string.IsNullOrEmpty(request.downloadHandler.text))
-                    {
-                        Debug.LogError($"Server Response: {request.downloadHandler.text}");
-
-                        onError?.Invoke(response.message);
-                    }
-                }
-            }
+                    Debug.LogError($"Login failed: {error}");
+                    onError?.Invoke(error);
+                });
         }
 
-        public IEnumerator RegisterUser(RegisterPayload newRegistration, Action<bool> onSucceed)
+        public IEnumerator ClientRegisterUser(RegisterPayload newRegistration, Action<bool> onSucceed)
         {
+
             Debug.Log("Registration Started");
-            byte[] postData = ApiUtility.PreparePostData(newRegistration);
 
-            using (UnityWebRequest request = new UnityWebRequest($"{apiUrl}/register", "POST"))
-            {
-                request.uploadHandler = new UploadHandlerRaw(postData);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
 
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return ApiUtility.SendRequestNoToken<RegisterPayload, string>($"{apiUrl}/register", "POST", newRegistration,
+                onSuccess: (response) =>
                 {
                     Debug.Log("User created successfully");
-                    Debug.Log(request.downloadHandler.text);
-
-                    ApiResponse<string> response = JsonUtility.FromJson<ApiResponse<string>>(request.downloadHandler.text);
-
-                    UserProperties.SetUserToken(response.data);
-
+                    TokenManager.SetUserToken(response.data);
                     onSucceed?.Invoke(true);
-                }
-                else
+                },
+                onError: (error) =>
                 {
-                    Debug.LogError($"Error: {request.error}");
-                    if (!string.IsNullOrEmpty(request.downloadHandler.text))
-                    {
-                        Debug.LogError($"Server Response: {request.downloadHandler.text}");
-                    }
+                    Debug.LogError($"Registration failed: {error}");
                     onSucceed?.Invoke(false);
-                }
-            }
+                });
         }
+
+#if UNITY_SERVER
+        public IEnumerator ServerCheckServer()
+        {
+            yield return ApiUtility.SendGetRequestWithToken<string>($"{apiUrl}/server-check",
+                onSuccess: (response) =>
+                {
+                    Debug.Log(response.data);
+                },
+                onError: (error) =>
+                {
+                    Debug.Log(error);
+                });
+        }
+#endif
     }
 }

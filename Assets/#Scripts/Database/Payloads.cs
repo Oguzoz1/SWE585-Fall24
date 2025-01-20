@@ -17,6 +17,7 @@ namespace Database.Payload
     {
         public int id;
         public string loginName;
+        public string role;
     }
 
     [System.Serializable]
