@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Database.Services
 {
+    using System;
     using UnityEngine.Networking;
     using Utility;
 
@@ -57,10 +58,19 @@ namespace Database.Services
 
                 // Send the request
                 yield return request.SendWebRequest();
+                Debug.Log($"LOGGING REMOVE: {request.result}");
 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    Debug.Log($"Player {playerId} removed successfully.");
+                    try
+                    {
+                        Debug.Log($"Player {playerId} removed successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Debug.LogError($"Parsing error: {ex.Message}");
+                    }
                 }
                 else
                 {

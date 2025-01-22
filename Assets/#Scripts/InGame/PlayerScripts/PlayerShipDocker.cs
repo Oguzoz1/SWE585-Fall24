@@ -65,7 +65,6 @@ namespace Player.Ship
         {
             if (collision.gameObject.CompareTag("dock"))
             {
-                Debug.Log("Colided with dock");
                 isLanded = true;
                 _dockingInvoked = false;
                 _lastPointOfDock = collision.contacts[0].point;
@@ -75,7 +74,6 @@ namespace Player.Ship
         {
             if (collision.gameObject.CompareTag("dock"))
             {
-                Debug.Log("Colliding! with dock");
                 isLanded = true;
                 _lastPointOfDock = collision.contacts[0].point;
             }

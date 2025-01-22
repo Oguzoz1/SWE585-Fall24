@@ -24,12 +24,10 @@ namespace SpaceStation
         {
             //Run animations and sounds
             _animator.SetBool("shipDocked", true);
-            Debug.Log("Player Docked");
         }
         private void HandlePlayerTakeOff(PlayerShipDocker docker)
         {
             _animator.SetBool("shipDocked", false);
-            Debug.Log("Player Took Off");
         }
     }
 }

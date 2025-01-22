@@ -7,45 +7,56 @@ namespace Game.Data
 {
     public class PlayerDataHandler : NetworkBehaviour
     {
-        [SerializeField] private PlayerDataSO _playerDataSO;  // Ensure this is assigned in the Inspector
+        [SerializeField] private PlayerDataSO _playerDataSO; 
         public PlayerData PlayerData { get; private set; }
 
-        private void Start()
+        public delegate void PlayerDataReadyDelegate(PlayerData playerData);
+        public event PlayerDataReadyDelegate OnPlayerDataReady;
+
+        //Place an authenticated flag here.
+        //Authentication happens when client makes a check call with their token
+        //If the playerid within token matches with the playerData on the mirror server, mirror server grants authentication.
+        //If it is not authenticated then the player is kicked out from the server.
+
+        private void Awake()
         {
-            // Log a warning if _playerDataSO is not assigned
-            if (_playerDataSO == null)
+            if (isLocalPlayer)
             {
-                Debug.LogError("PLAYER DATA SO IS NULL!");
-            }
-
-            if (isLocalPlayer && _playerDataSO != null)
-            {
-                PlayerData = _playerDataSO.PlayerData;
-
-                // Only call SendPlayerData() after PlayerData is fully initialized
-                if (PlayerData != null)
+                //Check if playerData is set
+                if (_playerDataSO == null)
                 {
-                    SendPlayerData();
+                    Debug.LogError("PLAYER DATA SO IS NULL!");
                 }
-                else
+
+                if (isLocalPlayer && _playerDataSO != null)
                 {
-                    Debug.LogError("PlayerData is null. Cannot send data.");
+                    PlayerData = _playerDataSO.PlayerData;
+
+                    if (PlayerData != null)
+                    {
+                        Debug.Log("Player Data is set!");
+                    }
+                    else
+                    {
+                        Debug.LogError("PlayerData is null. Cannot send data.");
+                    }
                 }
             }
         }
 
-        // Method to send data from client to server
-        public PlayerData SendPlayerData()
+        [ClientRpc]
+        public void RpcSendPlayerDataToServer()
         {
-            if (isLocalPlayer || isServerOnly)
+            if (isLocalPlayer)
             {
+
                 Debug.Log("Initiating sending data to player");
 
                 // Check if PlayerDataSO is null
                 if (_playerDataSO == null)
                 {
                     Debug.LogError("Player SO is NULL!");
-                    return null;
+                    return;
                 }
 
                 // Ensure PlayerData is initialized
@@ -55,43 +66,48 @@ namespace Game.Data
                 if (PlayerData == null)
                 {
                     Debug.LogError("PlayerData is null and cannot be sent.");
-                    return null;
+                    return;
                 }
-
-                // Check if connectionToClient is null
-                if (connectionToClient == null)
-                {
-                    Debug.LogError("connectionToClient is null!");
-                    return null;
-                }
-
-                // Check if connectionToClient.identity is null
-                if (connectionToClient.identity == null)
-                {
-                    Debug.LogError("connectionToClient.identity is null!");
-                    return null;
-                }
-
                 // If everything is valid, send data to server
                 Debug.Log($"Sending player data to server: {PlayerData.PlayerName}, playerId: {PlayerData.PlayerId}");
-                CmdSendPlayerData(connectionToClient.identity.netId, PlayerData);
+                CmdSetPlayerData(PlayerData);
 
-                return PlayerData;
+                return;
             }
             else
             {
                 Debug.LogError("Only the local player can send data to the server.");
-                return null;
+                return;
             }
         }
 
+        //TODO: Create a player object. Decide whether or not to save the PlayerData paired with Player Object => Key: playerId, Value: Player
         [Command]
-        private void CmdSendPlayerData(uint netId, PlayerData playerData)
+        private void CmdSetPlayerData(PlayerData playerData)
         {
-            // Store player data in OnlinePlayersManager
-            OnlinePlayersManager.Instance.AddPlayer(netId, playerData);
+            //Validate Client-Side Player Data:
+            if (playerData != null)
+                Debug.Log($"Received player data from client: {playerData.PlayerName}, playerId: {playerData.PlayerId} with connection Id: {this.connectionToClient.connectionId}");
+            else Debug.LogError($"Player Data Input is NULL!");
 
-            Debug.Log($"Received player data from client: {PlayerData.PlayerName}, playerId: {PlayerData.PlayerId}");
+            //Set client data on the server.
+            PlayerData = playerData;
+
+            if (!string.IsNullOrEmpty(PlayerData.PlayerName))
+            {
+                Debug.Log($"PlayerData is valid: {PlayerData.PlayerName}, {PlayerData.PlayerId}");
+
+                // Notify listeners that the data is ready
+                OnPlayerDataReady?.Invoke(PlayerData);
+            }
+            else
+            {
+                Debug.LogError("PlayerData is invalid!");
+            }
+
+            //Add Player data on the server.
+            OnlinePlayersManager.Instance.ServerAddPlayer(this.connectionToClient.connectionId, playerData);
+
         }
     }
 }

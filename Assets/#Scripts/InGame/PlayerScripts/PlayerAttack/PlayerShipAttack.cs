@@ -21,7 +21,6 @@ namespace Player.Ship
         private void Update()
         {
             if (!isLocalPlayer) return; // Only handle input on the local player.
-
             bool canShoot = (_lastAttackElapsed += Time.deltaTime) >= _attackSpeed;
             if (Input.GetKey(_attackInput) && canShoot)
             {

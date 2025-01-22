@@ -5,61 +5,70 @@ using UnityEngine;
 
 namespace Game.Network
 {
-    public class OnlinePlayersManager : NetworkBehaviour
+    public class OnlinePlayersManager
     {
         private static OnlinePlayersManager _instance;
         public static OnlinePlayersManager Instance => _instance ??= new OnlinePlayersManager();
 
-        //NetId to playerId
-        private readonly Dictionary<uint, PlayerData> _onlinePlayers = new();
+        //playerId to PlayerData
+        private readonly Dictionary<int, PlayerData> _onlinePlayers = new();
+
+
 
         #region Server
         /// <summary>
         /// Adds a player to the online players list.
         /// Should be called by server-side logic when a player connects.
         /// </summary>
-        /// <param name="netId">NetId of the player.</param>
+        /// <param name="connectionId">connectionId from the server networkbehaviour.</param>
         /// <param name="playerData">Player data to associate with the NetId.</param>
         [Server]
-        public void AddPlayer(uint netId, PlayerData playerData)
+        public void ServerAddPlayer(int connectionId, PlayerData playerData)
         {
-            if (_onlinePlayers.ContainsKey(netId))
+            if (_onlinePlayers.ContainsKey(connectionId))
             {
-                Debug.LogWarning($"Player with NetId {netId} is already online. Updating player data.");
-                _onlinePlayers[netId] = playerData;
+                Debug.LogWarning($"Player with NetId {connectionId} is already online. Updating player data.");
+                _onlinePlayers[connectionId] = playerData;
                 return;
             }
-            _onlinePlayers.Add(netId, playerData);
-            Debug.Log($"Player {playerData.PlayerName} added with NetId {netId}.");
+            _onlinePlayers.Add(connectionId, playerData);
+            Debug.Log($"Player {playerData.PlayerName} added with ConnectionId {connectionId}.");
         }
 
         /// <summary>
         /// Removes a player from the online players list.
         /// Should be called by server-side logic when a player disconnects.
         /// </summary>
-        /// <param name="netId">NetId of the player to remove.</param>
+        /// <param name="connectionId">connectionId from the server networkbehaviour.</param>
         [Server]
-        public void RemovePlayer(uint netId)
+        public bool ServerRemovePlayer(int connectionId)
         {
-            if (_onlinePlayers.Remove(netId, out var playerData))
+            if (_onlinePlayers.Remove(connectionId, out var playerData))
             {
-                Debug.Log($"Player {playerData.PlayerName} removed with NetId {netId}.");
+                Debug.Log($"Player {playerData.PlayerName} removed with NetId {connectionId}.");
+                return true;
             }
             else
             {
-                Debug.LogWarning($"Attempted to remove non-existent player with NetId {netId}.");
+                Debug.LogWarning($"Attempted to remove non-existent player with NetId {connectionId}.");
+                return false;
             }
         }
         /// <summary>
         /// Returns the designated player upon provided netId.
         /// </summary>
-        /// <param name="netId"></param>
+        /// <param name="connectionId"></param>
         /// <returns></returns>
         [Server]
-        public PlayerData GetOnlinePlayer(uint netId)
+        public PlayerData ServerGetOnlinePlayer(int connectionId)
         {
-            _onlinePlayers.TryGetValue(netId, out var playerData);
-            return playerData;
+            if (_onlinePlayers.TryGetValue(connectionId, out var playerData))
+                return playerData;
+            else
+            {
+                Debug.LogError($"Could not retrieve the player with Connection ID:{connectionId}");
+                return null;
+            }
         }
 
         /// <summary>
@@ -67,49 +76,10 @@ namespace Game.Network
         /// </summary>
         /// <returns>List of PlayerData representing online players.</returns>
         [Server]
-        public List<PlayerData> GetOnlinePlayers()
+        public List<PlayerData> ServerGetOnlinePlayers()
         {
             return new List<PlayerData>(_onlinePlayers.Values);
         }
-
-        /// <summary>
-        /// Handles client requests to get online player data.
-        /// </summary>
-        /// <param name="conn">Client connection requesting data.</param>
-        [Server]
-        public void HandlePlayerDataRequest(NetworkConnectionToClient conn)
-        {
-            if (!_onlinePlayers.ContainsKey(conn.identity.netId))
-            {
-                Debug.LogWarning($"Client {conn.connectionId} is not recognized as an online player.");
-                return;
-            }
-
-            // Example: Send online player data to the requesting client
-            TargetSendPlayerData(conn, new List<PlayerData>(_onlinePlayers.Values));
-        }
-
-        [TargetRpc]
-        private void TargetSendPlayerData(NetworkConnection conn, List<PlayerData> playerDataList)
-        {
-            // Process received data on the client side
-            Debug.Log($"Received {playerDataList.Count} online players from the server.");
-        }
         #endregion
-
-        #region Client
-        public override void OnStartLocalPlayer()
-        {
-            base.OnStartLocalPlayer();
-
-        }
-        public override void OnStopLocalPlayer()
-        {
-            base.OnStopLocalPlayer();
-
-        }
-        #endregion
-
-
     }
 }

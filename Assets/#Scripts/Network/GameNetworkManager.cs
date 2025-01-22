@@ -25,6 +25,8 @@ namespace Game.Network
         public override void OnClientConnect()
         {
             base.OnClientConnect();
+            //Check if the client is an authorized client else kick the client. If token does not exist or if the token expired or the response is bad
+            //Then force disconnect the client.
 
         }
         public override void OnClientDisconnect()
@@ -48,12 +50,19 @@ namespace Game.Network
             PlayerDataHandler playerDataHandler = playerObject.GetComponent<PlayerDataHandler>();
             if (playerDataHandler != null)
             {
-                Debug.Log("PlayerDataHandler is found now will try to send data");
-                // Set the PlayerData on the server
+                Debug.Log("PlayerDataHandler is found. Waiting for player data...");
 
-                //PlayerData playerData = playerDataHandler.SendPlayerData();
+                // Subscribe to the event to wait for player data readiness
+                playerDataHandler.OnPlayerDataReady += playerData =>
+                {
+                    Debug.Log($"Player data is ready! Proceeding with backend call for player: {playerData.PlayerName}");
 
-                //StartCoroutine(_activeUserService.ServerMovePlayerToInGame(playerData.PlayerId));
+                    // Proceed with backend call
+                    StartCoroutine(_activeUserService.ServerMovePlayerToInGame(playerData.PlayerId));
+                };
+
+                // Initiate the player data send
+                playerDataHandler.RpcSendPlayerDataToServer();
             }
             else
             {
@@ -71,25 +80,37 @@ namespace Game.Network
             base.OnServerDisconnect(conn);
 
 #if UNITY_SERVER
-            //Player Removal on disconnect
-            uint playerToRemoveId = conn.identity.netId;
-            PlayerData playerToRemove = OnlinePlayersManager
-                .Instance.GetOnlinePlayer(playerToRemoveId);
+            Debug.Log($"Handling disconnection for connection ID {conn.connectionId}");
 
+            if (OnlinePlayersManager.Instance == null)
+            {
+                Debug.LogError("OnlinePlayersManager.Instance is null. Cannot proceed.");
+                return;
+            }
+
+            PlayerData playerToRemove = OnlinePlayersManager.Instance.ServerGetOnlinePlayer(conn.connectionId);
+            if (playerToRemove == null)
+            {
+                Debug.LogError($"Player with connection ID {conn.connectionId} not found in OnlinePlayersManager.");
+                return;
+            }
+
+            Debug.Log($"Player found: {playerToRemove.PlayerName}, removing from backend and OnlinePlayersManager.");
             StartCoroutine(_activeUserService.RemovePlayer(playerToRemove.PlayerId));
-            OnlinePlayersManager.Instance.RemovePlayer(playerToRemoveId);
+            OnlinePlayersManager.Instance.ServerRemovePlayer(conn.connectionId);
 #endif
         }
+
         public override void OnStartServer()
         {
             base.OnStartServer();
             Debug.Log($"Server started on address {networkAddress} and port {transport.ServerActive()}");
 
 #if UNITY_SERVER
-            //Connect To Database as Server
+            //Check Connection to database as Server
             ServerDatabaseConfig config = new ServerDatabaseConfig();
-            //AuthService authService = new AuthService();
-            //StartCoroutine(authService.ServerCheckServer());
+            AuthService authService = new AuthService();
+            StartCoroutine(authService.ServerCheckServer());
 
 #endif
 
