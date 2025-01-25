@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Game.Data
 {
+    //There should be Data Handler service where the client data is sent to the game server.
     public class PlayerDataHandler : NetworkBehaviour
     {
         [SerializeField] private PlayerDataSO _playerDataSO; 
@@ -13,10 +14,16 @@ namespace Game.Data
         public delegate void PlayerDataReadyDelegate(PlayerData playerData);
         public event PlayerDataReadyDelegate OnPlayerDataReady;
 
-        //Place an authenticated flag here.
+      
         //Authentication happens when client makes a check call with their token
         //If the playerid within token matches with the playerData on the mirror server, mirror server grants authentication.
         //If it is not authenticated then the player is kicked out from the server.
+
+        private bool _isAuthenticated = false;
+        /// <summary>
+        /// If True, then the player ID sent by the client to the game server is checked and confirmed by the backend server. 
+        /// </summary>
+        public bool IsAuthenticated { get { return _isAuthenticated; } }
 
         private void Awake()
         {
@@ -44,6 +51,9 @@ namespace Game.Data
             }
         }
 
+        /// <summary>
+        /// Server calls this on clients with isLocal flag. It requests client to prepare data and request server to receive it.
+        /// </summary>
         [ClientRpc]
         public void RpcSendPlayerDataToServer()
         {
@@ -81,7 +91,11 @@ namespace Game.Data
             }
         }
 
-        //TODO: Create a player object. Decide whether or not to save the PlayerData paired with Player Object => Key: playerId, Value: Player
+
+        /// <summary>
+        /// Sets player data on the server and invokes OnPlayerDataReady with data provided by the client. 
+        /// </summary>
+        /// <param name="playerData"></param>
         [Command]
         private void CmdSetPlayerData(PlayerData playerData)
         {

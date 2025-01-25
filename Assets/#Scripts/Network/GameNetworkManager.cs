@@ -25,6 +25,7 @@ namespace Game.Network
         public override void OnClientConnect()
         {
             base.OnClientConnect();
+            //TODO:
             //Check if the client is an authorized client else kick the client. If token does not exist or if the token expired or the response is bad
             //Then force disconnect the client.
 
@@ -46,6 +47,10 @@ namespace Game.Network
             base.OnServerAddPlayer(conn);
 
 #if UNITY_SERVER
+
+
+            //SETTING UP CLIENT DATA, TRANSFERING PLAYER ACTIVITY RESPONSBILITY
+
             GameObject playerObject = conn.identity.gameObject;
             PlayerDataHandler playerDataHandler = playerObject.GetComponent<PlayerDataHandler>();
             if (playerDataHandler != null)
@@ -56,6 +61,8 @@ namespace Game.Network
                 playerDataHandler.OnPlayerDataReady += playerData =>
                 {
                     Debug.Log($"Player data is ready! Proceeding with backend call for player: {playerData.PlayerName}");
+
+                    //TODO: SEND AUTHENTICATION REQUEST WITH CLIENT TOKEN TO CHECK IF IT IS THE CLIENT
 
                     // Proceed with backend call
                     StartCoroutine(_activeUserService.ServerMovePlayerToInGame(playerData.PlayerId));
